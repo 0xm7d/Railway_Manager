@@ -181,18 +181,46 @@ const trips = [
         availableSeats: 50
     }
 ];
+const tickets = [];
 function    Afficher(){
     console.log("=== TRAJETS DISPONIBLES ===")
     for(let i = 0;i < trips.length ; i++){
         if(trips[i].availableSeats >= 1){
             console.log(
                 `#${trips[i].id} ${trips[i].departure} --> ${trips[i].destination}
-Départ : ${trips[i].departure}
+Départ : ${trips[i].departureTime}
 Arrivée : ${trips[i].arrivalTime}
 Prix : ${trips[i].price} DH
 Places disponibles : ${trips[i].availableSeats}\n`)
         }
     }
+}
+let ticket_id = 1   
+function    Acheter(){
+    let found = false
+    let nom = prompt('Nom du passager : ')
+    let Identifiant = parseInt(prompt('Identifiant du trajet : '))
+    for(let i = 0; i < trips.length; i++){
+        if(Identifiant == trips[i].id ){
+            found = true
+            if(trips[i].availableSeats >= 1){
+            let new_ticket = {
+                id: ticket_id,
+                passengerName:nom,
+                tripId: Identifiant,
+                seatNumber: 50 - trips[i].availableSeats + 1,
+                price: trips[i].price
+            }
+            ticket_id++
+            tickets[tickets.length] = new_ticket
+            trips[i].availableSeats -= 1
+            console.log("Ticket acheté avec succès.")
+        }else
+            console.log('Train complet ')
+        }
+    }
+    if(found == false)
+        console.log('Trajet introuvable ')
 }
 
 
@@ -206,6 +234,7 @@ while(id != 0){
             Afficher()
             break
         case 2:
+            Acheter()
             break
         case 0:
             console.log("Au revoir ")
