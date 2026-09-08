@@ -181,4 +181,34 @@ const trips = [
         availableSeats: 50
     }
 ];
-console.log("=================================\n        RAILWAY MANAGER\n=================================\n1. Afficher les trajets\n2. Acheter un ticket\n3. Afficher les tickets\n4. Annuler un ticket\n5. Rechercher un ticket\n6. Filtrer les trajets\n7. Trier les trajets\n0. Quitter")
+function    Afficher(){
+    console.log("=== TRAJETS DISPONIBLES ===")
+    for(let i = 0;i < trips.length ; i++){
+        if(trips[i].availableSeats >= 1){
+            console.log(
+                `#${trips[i].id} ${trips[i].departure} --> ${trips[i].destination}
+Départ : ${trips[i].departure}
+Arrivée : ${trips[i].arrivalTime}
+Prix : ${trips[i].price} DH
+Places disponibles : ${trips[i].availableSeats}\n`)
+        }
+    }
+}
+
+
+
+let id
+while(id != 0){
+    console.log("=================================\n        RAILWAY MANAGER\n=================================\n1. Afficher les trajets\n2. Acheter un ticket\n3. Afficher les tickets\n4. Annuler un ticket\n5. Rechercher un ticket\n6. Filtrer les trajets\n7. Trier les trajets\n0. Quitter")
+    id = parseInt(prompt('Votre choix : '))
+    switch(id){
+        case 1:
+            Afficher()
+            break
+        case 2:
+            break
+        case 0:
+            console.log("Au revoir ")
+            break
+    }
+}
