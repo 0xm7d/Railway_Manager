@@ -208,6 +208,8 @@ function    Acheter(){
                 id: ticket_id,
                 passengerName:nom,
                 tripId: Identifiant,
+                departure: trips[i].departure,
+                destination: trips[i].destination,
                 seatNumber: 50 - trips[i].availableSeats + 1,
                 price: trips[i].price
             }
@@ -215,6 +217,12 @@ function    Acheter(){
             tickets[tickets.length] = new_ticket
             trips[i].availableSeats -= 1
             console.log("Ticket acheté avec succès.")
+            console.log(
+                `Ticket #${tickets[i].id}
+Passager : ${new_ticket.id}
+Trajet : ${trips[i].departure} --> ${trips[i].destination}
+Place : ${new_ticket.seatNumber}
+Prix : ${new_ticket.price} DH`)
         }else
             console.log('Train complet ')
         }
@@ -223,6 +231,17 @@ function    Acheter(){
         console.log('Trajet introuvable ')
 }
 
+function    Afficher_tickets(){
+    console.log('=== TICKETS ===')
+    for(let i = 0; i < tickets.length ; i++){
+        console.log(
+            `Ticket #${tickets[i].id}
+Passager : ${tickets[i].passengerName}
+Trajet : ${tickets[i].departure} --> ${tickets[i].destination}
+Place : ${tickets[i].seatNumber}
+Prix : ${tickets[i].price} DH\n`)
+    }
+}
 
 
 let id
@@ -235,6 +254,9 @@ while(id != 0){
             break
         case 2:
             Acheter()
+            break
+        case 3:
+            Afficher_tickets()
             break
         case 0:
             console.log("Au revoir ")
