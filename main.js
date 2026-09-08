@@ -242,7 +242,14 @@ Place : ${tickets[i].seatNumber}
 Prix : ${tickets[i].price} DH\n`)
     }
 }
-
+function    Annuler(){
+    let Identifiant = prompt('Entrer Identifiant : ')
+    for(let i = 0;i < tickets.length; i++){
+        if(tickets[i].id == Identifiant){
+            
+        }
+    }
+}
 
 let id
 while(id != 0){
