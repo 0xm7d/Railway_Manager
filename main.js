@@ -219,7 +219,7 @@ function    Acheter(){
             console.log("Ticket acheté avec succès.")
             console.log(
                 `Ticket #${tickets[i].id}
-Passager : ${new_ticket.id}
+Passager : ${new_ticket.passengerName}
 Trajet : ${trips[i].departure} --> ${trips[i].destination}
 Place : ${new_ticket.seatNumber}
 Prix : ${new_ticket.price} DH`)
@@ -230,7 +230,6 @@ Prix : ${new_ticket.price} DH`)
     if(found == false)
         console.log('Trajet introuvable ')
 }
-
 function    Afficher_tickets(){
     console.log('=== TICKETS ===')
     for(let i = 0; i < tickets.length ; i++){
@@ -243,19 +242,37 @@ Prix : ${tickets[i].price} DH\n`)
     }
 }
 function    Annuler(){
+    let found = false
+    let switch1 = []
     let Identifiant = prompt('Entrer Identifiant : ')
     for(let i = 0;i < tickets.length; i++){
         if(tickets[i].id == Identifiant){
-            
+            found = true
+            for(let j = 0 ; j < trips.length ; j++){
+                if(trips[i].id == tickets[i].tripId){
+                    trips[i].availableSeats += 1
+                    break
+                }
+            }
+            tickets.splice(i,1)
+            console.log("Ticket annulé avec succès ")
+            break
         }
     }
+    if(found == false)
+        console.log('Ticket introuvable ')
 }
-
+function    Rechercher(){
+    let nom = prompt('Entrer le Nom du passger : ')
+}
 let id
 while(id != 0){
     console.log("=================================\n        RAILWAY MANAGER\n=================================\n1. Afficher les trajets\n2. Acheter un ticket\n3. Afficher les tickets\n4. Annuler un ticket\n5. Rechercher un ticket\n6. Filtrer les trajets\n7. Trier les trajets\n0. Quitter")
     id = parseInt(prompt('Votre choix : '))
     switch(id){
+        case 0:
+            console.log("Au revoir ")
+            break
         case 1:
             Afficher()
             break
@@ -265,8 +282,8 @@ while(id != 0){
         case 3:
             Afficher_tickets()
             break
-        case 0:
-            console.log("Au revoir ")
+        case 4:
+            Annuler()
             break
     }
 }
