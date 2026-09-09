@@ -263,6 +263,7 @@ function    Annuler(){
         console.log('Ticket introuvable ')
 }
 function    Rechercher(){
+    let found = false
     let nom = prompt('Entrer le Nom du passger : ')
     if(tickets.length == 0){
         console.log("Aucun ticket enregistré.");
@@ -271,6 +272,7 @@ function    Rechercher(){
     for(let i = 0 ; i < tickets.length; i++){
         if(tickets[i].passengerName == nom)
         {
+            found = true
             console.log(
                 `Ticket #${tickets[i].id}
 Passager : ${tickets[i].passengerName}
@@ -278,8 +280,22 @@ Trajet : ${tickets[i].departure} → ${tickets[i].destination}
 Place : ${tickets[i].seatNumber}
 Prix : ${tickets[i].price} DH\n`)
         }
-}}
-
+    }
+    if(found == false)
+        console.log("elle n'est pas ce ticket pour ce nom ! ")
+}
+function    Filtrer(){
+    let ville = prompt("Entrer ville du depart : ").toLowerCase()
+    let found = false
+    for(let i = 0; i < trips.length ; i++){
+        if(trips[i].departure.toLowerCase() == ville){
+            console.log(`${trips[i].departure} → ${trips[i].destination} : ${trips[i].price} DH`)
+            found = true
+        }
+    }
+    if(found == false)
+        console.log("Nous n'avons pas cette ville.")
+}
 let id
 while(id != 0){
     console.log("=================================\n        RAILWAY MANAGER\n=================================\n1. Afficher les trajets\n2. Acheter un ticket\n3. Afficher les tickets\n4. Annuler un ticket\n5. Rechercher un ticket\n6. Filtrer les trajets\n7. Trier les trajets\n0. Quitter")
@@ -287,21 +303,24 @@ while(id != 0){
     switch(id){
         case 0:
             console.log("Au revoir ")
-            break
+            break;
         case 1:
             Afficher()
-            break
+            break;
         case 2:
             Acheter()
-            break
+            break;
         case 3:
             Afficher_tickets()
-            break
+            break;
         case 4:
             Annuler()
-            break
+            break;
         case 5:
             Rechercher()
-            break
+            break;
+        case 6:
+            Filtrer()
+            break;
     }
 }
