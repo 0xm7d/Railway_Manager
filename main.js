@@ -185,7 +185,7 @@ const tickets = [];
 function    Afficher(){
     console.log("=== TRAJETS DISPONIBLES ===")
     for(let i = 0;i < trips.length ; i++){
-        if(trips[i].availableSeats >= 1){
+        if(trips[i].availableSeats >= 1){   
             console.log(
                 `#${trips[i].id} ${trips[i].departure} --> ${trips[i].destination}
 Départ : ${trips[i].departureTime}
@@ -223,8 +223,9 @@ Passager : ${new_ticket.passengerName}
 Trajet : ${trips[i].departure} --> ${trips[i].destination}
 Place : ${new_ticket.seatNumber}
 Prix : ${new_ticket.price} DH`)
-        }else
-            console.log('Train complet ')
+        }else{
+            console.log('Train complet ')}
+            break
         }
     }
     if(found == false)
@@ -232,6 +233,8 @@ Prix : ${new_ticket.price} DH`)
 }
 function    Afficher_tickets(){
     console.log('=== TICKETS ===')
+    if(tickets.length == 0)
+        console.log("Aucun ticket enregistré.");
     for(let i = 0; i < tickets.length ; i++){
         console.log(
             `Ticket #${tickets[i].id}
@@ -243,7 +246,7 @@ Prix : ${tickets[i].price} DH\n`)
 }
 function    Annuler(){
     let found = false
-    let Identifiant = prompt('Entrer Identifiant : ')
+    let Identifiant = parseInt(prompt('Entrer Identifiant : '))
     for(let i = 0;i < tickets.length; i++){
         if(tickets[i].id == Identifiant){
             found = true
@@ -281,7 +284,7 @@ Prix : ${tickets[i].price} DH\n`)
         }
     }
     if(found == false)
-        console.log("elle n'est pas ce ticket pour ce nom ! ")
+        console.log("Aucun ticket trouvé pour ce nom.");
 }
 function    Filtrer(){
     let ville = prompt("Entrer ville du depart : ").toLowerCase()
@@ -306,6 +309,13 @@ function    Trier(){
         }
     }
     Afficher()
+}
+function    Statistique(){
+    let sum_price = 0
+    for(let i = 0 ; i < tickets.length;i++){
+        sum_price += tickets[i].price
+    }
+    console.log(`Nombre total de tickets : ${tickets.length}\n Chiffre d'affaires total : ${sum_price} DH`)
 }
 let id
 while(id != 0){
@@ -335,6 +345,9 @@ while(id != 0){
             break;
         case 7:
             Trier()
+            break;
+        default:
+            console.log("Choix invalide.");
             break;
     }
 }
