@@ -243,7 +243,6 @@ Prix : ${tickets[i].price} DH\n`)
 }
 function    Annuler(){
     let found = false
-    let switch1 = []
     let Identifiant = prompt('Entrer Identifiant : ')
     for(let i = 0;i < tickets.length; i++){
         if(tickets[i].id == Identifiant){
@@ -296,6 +295,18 @@ function    Filtrer(){
     if(found == false)
         console.log("Nous n'avons pas cette ville.")
 }
+function    Trier(){
+    for(let i = 0; i< trips.length ; i++){
+        for(let j = 0; j< trips.length - i - 1 ; j++){
+            if(trips[j].price > trips[j + 1].price){
+                let swap = trips[j]
+                trips[j] = trips[j+1]
+                trips[j+1] = swap
+            }
+        }
+    }
+    Afficher()
+}
 let id
 while(id != 0){
     console.log("=================================\n        RAILWAY MANAGER\n=================================\n1. Afficher les trajets\n2. Acheter un ticket\n3. Afficher les tickets\n4. Annuler un ticket\n5. Rechercher un ticket\n6. Filtrer les trajets\n7. Trier les trajets\n0. Quitter")
@@ -321,6 +332,9 @@ while(id != 0){
             break;
         case 6:
             Filtrer()
+            break;
+        case 7:
+            Trier()
             break;
     }
 }
