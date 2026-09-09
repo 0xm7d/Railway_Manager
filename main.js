@@ -195,7 +195,7 @@ Places disponibles : ${trips[i].availableSeats}\n`)
         }
     }
 }
-let ticket_id = 1   
+let ticket_id = 1
 function    Acheter(){
     let found = false
     let nom = prompt('Nom du passager : ')
@@ -208,8 +208,6 @@ function    Acheter(){
                 id: ticket_id,
                 passengerName:nom,
                 tripId: Identifiant,
-                departure: trips[i].departure,
-                destination: trips[i].destination,
                 seatNumber: 50 - trips[i].availableSeats + 1,
                 price: trips[i].price
             }
@@ -236,13 +234,17 @@ function    Afficher_tickets(){
     if(tickets.length == 0)
         console.log("Aucun ticket enregistré.");
     for(let i = 0; i < tickets.length ; i++){
-        console.log(
-            `Ticket #${tickets[i].id}
-Passager : ${tickets[i].passengerName}
-Trajet : ${tickets[i].departure} --> ${tickets[i].destination}
-Place : ${tickets[i].seatNumber}
-Prix : ${tickets[i].price} DH\n`)
+    for(let j = 0 ; j < trips.length ; j++){
+        if(trips[j].id == tickets[i].tripId){
+            console.log(
+                `Ticket #${tickets[i].id}
+    Passager : ${tickets[i].passengerName}
+    Trajet : ${trips[j].departure} --> ${trips[j].destination}
+    Place : ${tickets[i].seatNumber}
+    Prix : ${tickets[i].price} DH\n`)
+            }
     }
+}
 }
 function    Annuler(){
     let found = false
@@ -266,19 +268,19 @@ function    Annuler(){
 }
 function    Rechercher(){
     let found = false
-    let nom = prompt('Entrer le Nom du passger : ')
+    let nom = prompt('Entrer le Nom du passger : ').toLocaleLowerCase()
     if(tickets.length == 0){
         console.log("Aucun ticket enregistré.");
         return;
     }
     for(let i = 0 ; i < tickets.length; i++){
-        if(tickets[i].passengerName == nom)
+        if(tickets[i].passengerName.toLocaleLowerCase() == nom)
         {
             found = true
             console.log(
                 `Ticket #${tickets[i].id}
 Passager : ${tickets[i].passengerName}
-Trajet : ${tickets[i].departure} → ${tickets[i].destination}
+Trajet : ${trips[i].departure} → ${trips[i].destination}
 Place : ${tickets[i].seatNumber}
 Prix : ${tickets[i].price} DH\n`)
         }
@@ -312,14 +314,26 @@ function    Trier(){
 }
 function    Statistique(){
     let sum_price = 0
+    let plus_vendu_depart = ""
+    let plus_vendu_destination = ""
+    let total_ticket = 0
+    let max = 0
     for(let i = 0 ; i < tickets.length;i++){
         sum_price += tickets[i].price
     }
-    console.log(`Nombre total de tickets : ${tickets.length}\n Chiffre d'affaires total : ${sum_price} DH`)
+    for(let j = 0; j < trips.length ; j++){
+        total_ticket = 50 - trips[j].availableSeats
+        if(total_ticket > max){
+            max = total_ticket
+            plus_vendu_depart = trips[j].departure
+            plus_vendu_destination = trips[j].destination
+        }
+    }
+    console.log(`Nombre total de tickets : ${tickets.length}\n Chiffre d'affaires total : ${sum_price} DH\n Trajet le plus vendu : ${plus_vendu_depart} → ${plus_vendu_destination}\n ${max} tickets vendus`)
 }
 let id
 while(id != 0){
-    console.log("=================================\n        RAILWAY MANAGER\n=================================\n1. Afficher les trajets\n2. Acheter un ticket\n3. Afficher les tickets\n4. Annuler un ticket\n5. Rechercher un ticket\n6. Filtrer les trajets\n7. Trier les trajets\n0. Quitter")
+    console.log("=================================\n        RAILWAY MANAGER\n=================================\n1. Afficher les trajets\n2. Acheter un ticket\n3. Afficher les tickets\n4. Annuler un ticket\n5. Rechercher un ticket\n6. Filtrer les trajets\n7. Trier les trajets\n8. Afficher les Statistiques\n0. Quitter")
     id = parseInt(prompt('Votre choix : '))
     switch(id){
         case 0:
@@ -345,6 +359,9 @@ while(id != 0){
             break;
         case 7:
             Trier()
+            break;
+        case 8:
+            Statistique()
             break;
         default:
             console.log("Choix invalide.");
