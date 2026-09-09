@@ -208,6 +208,8 @@ function    Acheter(){
                 id: ticket_id,
                 passengerName:nom,
                 tripId: Identifiant,
+                departure : trips[i].departure,
+                destination : trips[i].destination,
                 seatNumber: 50 - trips[i].availableSeats + 1,
                 price: trips[i].price
             }
@@ -218,7 +220,7 @@ function    Acheter(){
             console.log(
                 `Ticket #${new_ticket.id}
 Passager : ${new_ticket.passengerName}
-Trajet : ${trips[i].departure} --> ${trips[i].destination}
+Trajet : ${new_ticket.departure} --> ${new_ticket.destination}
 Place : ${new_ticket.seatNumber}
 Prix : ${new_ticket.price} DH`)
         }else{
@@ -234,34 +236,34 @@ function    Afficher_tickets(){
     if(tickets.length == 0)
         console.log("Aucun ticket enregistré.");
     for(let i = 0; i < tickets.length ; i++){
-    for(let j = 0 ; j < trips.length ; j++){
-        if(trips[j].id == tickets[i].tripId){
             console.log(
                 `Ticket #${tickets[i].id}
     Passager : ${tickets[i].passengerName}
-    Trajet : ${trips[j].departure} --> ${trips[j].destination}
+    Trajet : ${tickets[i].departure} --> ${tickets[i].destination}
     Place : ${tickets[i].seatNumber}
     Prix : ${tickets[i].price} DH\n`)
-            }
     }
-}
 }
 function    Annuler(){
     let found = false
     let Identifiant = parseInt(prompt('Entrer Identifiant : '))
+    let sure = prompt('es-tu sûr de vouloir supprimer ce ticket ? oui/no : ').toLocaleLowerCase()
     for(let i = 0;i < tickets.length; i++){
-        if(tickets[i].id == Identifiant){
-            found = true
-            for(let j = 0 ; j < trips.length ; j++){
-                if(trips[j].id == tickets[i].tripId){
-                    trips[j].availableSeats += 1
-                    break
+        if(sure == 'oui'){
+            if(tickets[i].id == Identifiant){
+                found = true
+                for(let j = 0 ; j < trips.length ; j++){
+                    if(trips[j].id == tickets[i].tripId){
+                        trips[j].availableSeats += 1
+                        break
+                    }
                 }
-            }
-            tickets.splice(i,1)
-            console.log("Ticket annulé avec succès ")
-            break
-        }
+                tickets.splice(i,1)
+                console.log("Ticket annulé avec succès ")
+                break
+        }}
+        else
+            return
     }
     if(found == false)
         console.log('Ticket introuvable ')
@@ -280,7 +282,7 @@ function    Rechercher(){
             console.log(
                 `Ticket #${tickets[i].id}
 Passager : ${tickets[i].passengerName}
-Trajet : ${trips[i].departure} → ${trips[i].destination}
+Trajet : ${tickets[i].departure} → ${tickets[i].destination}
 Place : ${tickets[i].seatNumber}
 Prix : ${tickets[i].price} DH\n`)
         }
@@ -316,19 +318,21 @@ function    Statistique(){
     let sum_price = 0
     let plus_vendu_depart = ""
     let plus_vendu_destination = ""
-    let total_ticket = 0
     let max = 0
     for(let i = 0 ; i < tickets.length;i++){
         sum_price += tickets[i].price
     }
     for(let j = 0; j < trips.length ; j++){
-        total_ticket = 50 - trips[j].availableSeats
-        if(total_ticket > max){
-            max = total_ticket
-            plus_vendu_depart = trips[j].departure
-            plus_vendu_destination = trips[j].destination
+        let count = 0
+    for(let x = 0 ; x < tickets.length ; x++){
+        if(trips[j].id == tickets[x].tripId)
+            count++}
+        if(count > max){
+                max = count
+                plus_vendu_depart = trips[j].departure
+                plus_vendu_destination = trips[j].destination
+            }
         }
-    }
     console.log(`Nombre total de tickets : ${tickets.length}\n Chiffre d'affaires total : ${sum_price} DH\n Trajet le plus vendu : ${plus_vendu_depart} → ${plus_vendu_destination}\n ${max} tickets vendus`)
 }
 let id
