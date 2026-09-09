@@ -218,7 +218,7 @@ function    Acheter(){
             trips[i].availableSeats -= 1
             console.log("Ticket acheté avec succès.")
             console.log(
-                `Ticket #${tickets[i].id}
+                `Ticket #${new_ticket.id}
 Passager : ${new_ticket.passengerName}
 Trajet : ${trips[i].departure} --> ${trips[i].destination}
 Place : ${new_ticket.seatNumber}
@@ -249,8 +249,8 @@ function    Annuler(){
         if(tickets[i].id == Identifiant){
             found = true
             for(let j = 0 ; j < trips.length ; j++){
-                if(trips[i].id == tickets[i].tripId){
-                    trips[i].availableSeats += 1
+                if(trips[j].id == tickets[i].tripId){
+                    trips[j].availableSeats += 1
                     break
                 }
             }
@@ -264,7 +264,22 @@ function    Annuler(){
 }
 function    Rechercher(){
     let nom = prompt('Entrer le Nom du passger : ')
-}
+    if(tickets.length == 0){
+        console.log("Aucun ticket enregistré.");
+        return;
+    }
+    for(let i = 0 ; i < tickets.length; i++){
+        if(tickets[i].passengerName == nom)
+        {
+            console.log(
+                `Ticket #${tickets[i].id}
+Passager : ${tickets[i].passengerName}
+Trajet : ${tickets[i].departure} → ${tickets[i].destination}
+Place : ${tickets[i].seatNumber}
+Prix : ${tickets[i].price} DH\n`)
+        }
+}}
+
 let id
 while(id != 0){
     console.log("=================================\n        RAILWAY MANAGER\n=================================\n1. Afficher les trajets\n2. Acheter un ticket\n3. Afficher les tickets\n4. Annuler un ticket\n5. Rechercher un ticket\n6. Filtrer les trajets\n7. Trier les trajets\n0. Quitter")
@@ -284,6 +299,9 @@ while(id != 0){
             break
         case 4:
             Annuler()
+            break
+        case 5:
+            Rechercher()
             break
     }
 }
