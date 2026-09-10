@@ -16,7 +16,7 @@ const trips = [
         departureTime: "08:00",
         arrivalTime: "10:30",
         price: 90,
-        availableSeats: 50
+        availableSeats: 45
     },
     {
         id: 3,
@@ -25,7 +25,7 @@ const trips = [
         departureTime: "09:00",
         arrivalTime: "13:00",
         price: 140,
-        availableSeats: 50
+        availableSeats: 48
     },
     {
         id: 4,
@@ -43,7 +43,7 @@ const trips = [
         departureTime: "10:00",
         arrivalTime: "13:30",
         price: 110,
-        availableSeats: 50
+        availableSeats: 49
     },
     {
         id: 6,
@@ -52,7 +52,7 @@ const trips = [
         departureTime: "11:30",
         arrivalTime: "14:30",
         price: 120,
-        availableSeats: 50
+        availableSeats: 49
     },
     {
         id: 7,
@@ -142,7 +142,7 @@ const trips = [
         departureTime: "12:00",
         arrivalTime: "15:00",
         price: 105,
-        availableSeats: 50
+        availableSeats: 49
     },
     {
         id: 17,
@@ -181,7 +181,98 @@ const trips = [
         availableSeats: 50
     }
 ];
-const tickets = [];
+const tickets = [
+    {
+        id: 1,
+        passengerName:"mohamed",
+        tripId: 2,
+        departure : "Safi",
+        destination : "Marrakech",
+        seatNumber: 1,
+        price: 90
+    },
+    {
+        id: 2,
+        passengerName:"omar",
+        tripId: 5,
+        departure : "Youssoufia",
+        destination : "Casablanca",
+        seatNumber: 1,
+        price: 110
+    },
+    {
+        id: 3,
+        passengerName:"sara",
+        tripId: 2,
+        departure : "Safi",
+        destination : "Marrakech",
+        seatNumber: 2,
+        price: 90
+    },
+    {
+        id: 4,
+        passengerName:"anas",
+        tripId: 3,
+        departure : "Safi",
+        destination : "Casablanca",
+        seatNumber: 1,
+        price: 140
+    },
+    {
+        id: 5,
+        passengerName:"inas",
+        tripId: 2,
+        departure : "Safi",
+        destination : "Marrakech",
+        seatNumber: 3,
+        price: 90
+    },
+    {
+        id: 6,
+        passengerName:"adam",
+        tripId: 16,
+        departure : "Meknes",
+        destination : "Casablanca",
+        seatNumber: 1,
+        price: 105
+    },
+    {
+        id: 7,
+        passengerName:"younnes",
+        tripId: 2,
+        departure : "Safi",
+        destination : "Marrakech",
+        seatNumber: 4,
+        price: 90
+    },
+    {
+        id: 8,
+        passengerName:"abdellah",
+        tripId: 3,
+        departure : "Safi",
+        destination : "Casablanca",
+        seatNumber: 2,
+        price: 140
+    },
+    {
+        id: 9,
+        passengerName:"aya",
+        tripId: 6,
+        departure : "Marrakech",
+        destination : "Casablanca",
+        seatNumber: 1,
+        price: 120
+    },
+    {
+        id: 10,
+        passengerName:"charaf",
+        tripId: 2,
+        departure : "Safi",
+        destination : "Marrakech",
+        seatNumber: 5,
+        price: 90
+    }
+];
 function    Afficher(){
     console.log("=== TRAJETS DISPONIBLES ===")
     for(let i = 0;i < trips.length ; i++){
@@ -208,8 +299,6 @@ function    Acheter(){
                 id: ticket_id,
                 passengerName:nom,
                 tripId: Identifiant,
-                departure : trips[i].departure,
-                destination : trips[i].destination,
                 seatNumber: 50 - trips[i].availableSeats + 1,
                 price: trips[i].price
             }
@@ -220,7 +309,7 @@ function    Acheter(){
             console.log(
                 `Ticket #${new_ticket.id}
 Passager : ${new_ticket.passengerName}
-Trajet : ${new_ticket.departure} --> ${new_ticket.destination}
+Trajet : ${trips[i].departure} --> ${trips[i].destination}
 Place : ${new_ticket.seatNumber}
 Prix : ${new_ticket.price} DH`)
         }else{
@@ -231,6 +320,7 @@ Prix : ${new_ticket.price} DH`)
     if(found == false)
         console.log('Trajet introuvable ')
 }
+
 function    Afficher_tickets(){
     console.log('=== TICKETS ===')
     if(tickets.length == 0)
@@ -247,7 +337,7 @@ function    Afficher_tickets(){
 function    Annuler(){
     let found = false
     let Identifiant = parseInt(prompt('Entrer Identifiant : '))
-    let sure = prompt('es-tu sûr de vouloir supprimer ce ticket ? oui/no : ').toLocaleLowerCase()
+    let sure = prompt('es-tu sûr de vouloir supprimer ce ticket ? oui/no : ').toLowerCase()
     for(let i = 0;i < tickets.length; i++){
         if(sure == 'oui'){
             if(tickets[i].id == Identifiant){
@@ -324,16 +414,37 @@ function    Statistique(){
     }
     for(let j = 0; j < trips.length ; j++){
         let count = 0
-    for(let x = 0 ; x < tickets.length ; x++){
-        if(trips[j].id == tickets[x].tripId)
-            count++}
-        if(count > max){
+        for(let x = 0 ; x < tickets.length ; x++){
+            if(trips[j].id == tickets[x].tripId)
+                count++}
+            if(count > max){
                 max = count
                 plus_vendu_depart = trips[j].departure
                 plus_vendu_destination = trips[j].destination
             }
         }
-    console.log(`Nombre total de tickets : ${tickets.length}\n Chiffre d'affaires total : ${sum_price} DH\n Trajet le plus vendu : ${plus_vendu_depart} → ${plus_vendu_destination}\n ${max} tickets vendus`)
+        let choix = 0
+        while(choix != 4){
+            
+        console.log(`=== STATISTIQUES === \n 1. Nombre total de tickets\n 2. Chiffre d'affaires total\n 3. Trajet le plus vendu\n 4. Retour`)
+        choix = parseInt(prompt('Votre choix : '))
+        switch(choix){
+            case 1:
+                console.log(`Nombre total de tickets : ${tickets.length}`);
+                break;
+            case 2:
+                console.log(`Chiffre d'affaires total : ${sum_price} DH`);
+                break;
+            case 3:
+                console.log(`Trajet le plus vendu : ${plus_vendu_depart} → ${plus_vendu_destination}\n ${max} tickets vendus`)
+                break;
+            case 4:
+                return;
+            default:
+                console.log('choix invalid : ');
+                break;
+        }
+        }
 }
 let id
 while(id != 0){
