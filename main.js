@@ -286,20 +286,35 @@ Places disponibles : ${trips[i].availableSeats}\n`)
         }
     }
 }
-let ticket_id = 1
+let ticket_id = 11
 function    Acheter(){
     let found = false
+    let place = 1
     let nom = prompt('Nom du passager : ')
     let Identifiant = parseInt(prompt('Identifiant du trajet : '))
     for(let i = 0; i < trips.length; i++){
         if(Identifiant == trips[i].id ){
             found = true
             if(trips[i].availableSeats >= 1){
+                while(place <= 50){
+                    let full = false
+                    for(let j = 0 ; j< tickets.length ; j++){
+                        if(tickets[j].tripId == Identifiant && tickets[j].seatNumber == place){
+                            full = true;
+                            break;
+                        }
+                    }
+                        if(full == false)
+                            break
+                        place++
+                }
             let new_ticket = {
                 id: ticket_id,
                 passengerName:nom,
+                departure:trips[i].departure,
+                destination:trips[i].destination,
                 tripId: Identifiant,
-                seatNumber: 50 - trips[i].availableSeats + 1,
+                seatNumber: place,
                 price: trips[i].price
             }
             ticket_id++
@@ -309,7 +324,7 @@ function    Acheter(){
             console.log(
                 `Ticket #${new_ticket.id}
 Passager : ${new_ticket.passengerName}
-Trajet : ${trips[i].departure} --> ${trips[i].destination}
+Trajet : ${new_ticket.departure} --> ${new_ticket.destination}
 Place : ${new_ticket.seatNumber}
 Prix : ${new_ticket.price} DH`)
         }else{
@@ -320,7 +335,6 @@ Prix : ${new_ticket.price} DH`)
     if(found == false)
         console.log('Trajet introuvable ')
 }
-
 function    Afficher_tickets(){
     console.log('=== TICKETS ===')
     if(tickets.length == 0)
